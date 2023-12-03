@@ -2,7 +2,7 @@
 
 Train::Train()
 {
-	trainNumber = "";
+	number = "";
 	destination = "";
 	departureHours = -1;
 	departureMinutes = -1;
@@ -10,10 +10,11 @@ Train::Train()
 	std::cout << "Standard constructor called.\n";
 }
 
-Train::Train(std::string trainNumber, std::string destination,
+
+Train::Train(std::string trainNumber, std::string destination, 
 	unsigned short departureHours, unsigned short departureMinutes)
 {
-	this->trainNumber = trainNumber;
+	this->number = trainNumber;
 	this->destination = destination;
 	this->departureHours = departureHours;
 	this->departureMinutes = departureMinutes;
@@ -23,7 +24,7 @@ Train::Train(std::string trainNumber, std::string destination,
 
 Train::Train(Train* copyFrom)
 {
-	trainNumber = copyFrom->trainNumber;
+	number = copyFrom->number;
 	destination = copyFrom->destination;
 	departureHours = copyFrom->departureHours;
 	departureMinutes = copyFrom->departureMinutes;
@@ -38,12 +39,22 @@ Train::~Train()
 
 void Train::setTrainNumber(std::string trainNumber)
 {
-	this->trainNumber = trainNumber;
+	this->number = trainNumber;
 }
 
 void Train::setDestination(std::string destination)
 {
 	this->destination = destination;
+}
+
+void Train::setDepartureHours(unsigned short departureHours)
+{
+	this->departureHours = departureHours;
+}
+
+void Train::setDepartureMinutes(unsigned short departureMinutes)
+{
+	this->departureMinutes = departureMinutes;
 }
 
 void Train::setDepartureTime(unsigned short departureHours, unsigned short departureMinutes)
@@ -55,7 +66,7 @@ void Train::setDepartureTime(unsigned short departureHours, unsigned short depar
 
 std::string Train::getTrainNumber()
 {
-	return trainNumber;
+	return number;
 }
 
 std::string Train::getDestination()
@@ -69,30 +80,50 @@ std::pair<unsigned short, unsigned short> Train::getDepartureTime()
 }
 
 
+bool operator>(const Train& leftHandSide, const Train& rightHandSide)
+{
+	return (leftHandSide.destination.compare(rightHandSide.destination)) > 0;
+}
+
+bool operator>=(const Train& leftHandSide, const Train& rightHandSide)
+{
+	return !(leftHandSide < rightHandSide);
+}
+
+bool operator<(const Train& leftHandSide, const Train& rightHandSide)
+{
+	return (leftHandSide.destination.compare(rightHandSide.destination)) < 0;
+}
+
+bool operator<=(const Train& leftHandSide, const Train& rightHandSide)
+{
+	return !(leftHandSide > rightHandSide);
+}
+
 std::ostream& operator<<(std::ostream& leftHandSide, const Train& rightHandSide)
 {
 	leftHandSide
-		<< rightHandSide.trainNumber << " "
+		<< rightHandSide.number << " "
 		<< rightHandSide.destination << " "
-		<< rightHandSide.departureHours << " "
+		<< rightHandSide.departureHours << ":"
 		<< rightHandSide.departureMinutes << '\n';
 
 	return leftHandSide;
 }
 
-std::istream& operator>>(Train& leftHandSide,
+void operator>>(Train& leftHandSide,
 	std::tuple<std::string, std::string, unsigned short, unsigned short> rightHandSide)
 {
-	leftHandSide.trainNumber = std::get<0>(rightHandSide);
+	leftHandSide.number = std::get<0>(rightHandSide);
 	leftHandSide.destination = std::get<1>(rightHandSide);
 	leftHandSide.departureHours = std::get<2>(rightHandSide);
 	leftHandSide.departureMinutes = std::get<3>(rightHandSide);
 }
 
-std::istream& operator>>(Train& leftHandSide,
+void operator>>(Train& leftHandSide,
 	std::tuple<std::string, std::string, std::pair<unsigned short, unsigned short>> rightHandSide)
 {
-	leftHandSide.trainNumber = std::get<0>(rightHandSide);
+	leftHandSide.number = std::get<0>(rightHandSide);
 	leftHandSide.destination = std::get<1>(rightHandSide);
 	leftHandSide.departureHours = std::get<2>(rightHandSide).first;
 	leftHandSide.departureMinutes = std::get<2>(rightHandSide).second;
