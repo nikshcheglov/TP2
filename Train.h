@@ -12,7 +12,7 @@ public:
 	Train();
 	Train(std::string number, std::string destination,
 		unsigned short departureHours, unsigned short departureMinutes);
-	Train(Train* copyFrom);
+	Train(Train* copyFrom); //конструктор копирования
 
 	~Train();
 

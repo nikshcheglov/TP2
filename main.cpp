@@ -9,7 +9,7 @@ int main()
 	std::vector<Train> trains;
 	Train newTrain;
 	std::string newTrainNumber, newTrainDestination;
-	
+
 	std::pair<unsigned short, unsigned short> currentDepartureTime;
 
 	unsigned short
@@ -76,10 +76,10 @@ keyscan:
 		for (Train a : trains)
 		{
 			currentDepartureTime = a.getDepartureTime();
-			unsigned short currentDepartureHours = currentDepartureTime.first, 
+			currentDepartureHours = currentDepartureTime.first,
 				currentDepartureMinutes = currentDepartureTime.second;
 
-			if (currentDepartureHours - filterDepartureHours > 1
+			if (currentDepartureHours > filterDepartureHours
 				|| (currentDepartureHours == filterDepartureHours && currentDepartureMinutes >= filterDepartureMinutes))
 			{
 				std::cout << a;
@@ -112,29 +112,24 @@ keyscan:
 
 		switch (option)
 		{
-		case '1':
+		case 1:
 			std::cin >> newTrainNumber;
 			trains[index].setTrainNumber(newTrainNumber);
 
 			break;
-		case '2':
+		case 2:
 			std::cin >> newTrainDestination;
 			trains[index].setDestination(newTrainDestination);
 
 			break;
-		case '3':
+		case 3:
 			std::cin >> newTrainDepartureHours;
 			trains[index].setDepartureHours(newTrainDepartureHours);
 
 			break;
-		case '4':
+		case 4:
 			std::cin >> newTrainDepartureMinutes;
 			trains[index].setDepartureMinutes(newTrainDepartureMinutes);
-
-			break;
-
-		default:
-			std::cout << "Nothing edited, returning to menu!\n";
 
 			break;
 		}
@@ -143,8 +138,14 @@ keyscan:
 
 		break;
 	case '6':
-		std::cout << "There are " << task() << " four-letter words in the file.\n";
-
+		try
+		{
+			std::cout << "There are " << task() << " four-letter words in the file.\n";
+		}
+		catch (std::exception& e)
+		{
+			std::cout << e.what();
+		}
 		break;
 	case '0':
 		exit(0);

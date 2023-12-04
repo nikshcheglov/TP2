@@ -6,6 +6,11 @@ int task()
 	std::ifstream file("file.txt");
 	std::string line, word;
 
+	if (!file.is_open())
+	{
+		throw std::exception("Failed to open file!\n");
+	}
+
 	while (!(file.eof()))
 	{
 		std::getline(file, line);
